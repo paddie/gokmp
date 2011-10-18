@@ -124,10 +124,3 @@ func (kmp *KMP) FindAllStringIndex(s string) []int {
     }
     return match
 }
-
-// func main() {
-//     p := "abababn"
-//     s := "abababababababababababababababababababababnabababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababnabababababababababababababababababababababababababababnababababababababababababababababababnabababababababababababababababababababababababababababababababababnababababababn"
-//     kmp,_ := NewKMP(p)
-//     fmt.Println(kmp.FindAllStringIndex(s))
-// }
