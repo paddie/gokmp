@@ -15,10 +15,12 @@ type KMP struct {
     prefix []int
 }
 
+// For debugging
 func (kmp *KMP) String() string {
     return fmt.Sprintf("pattern: %v\nprefix: %v", kmp.pattern, kmp.prefix)
 }
 
+// compile new prefix-array given argument
 func NewKMP(pattern string) (*KMP, os.Error) {
     prefix, err := computePrefix(pattern)
     if err != nil {
@@ -30,6 +32,8 @@ func NewKMP(pattern string) (*KMP, os.Error) {
         nil
 }
 
+// compute prefix-function
+// - returns in integer-array or an error if pattern is erroneously formatted
 func computePrefix(pattern string) ([]int, os.Error) {
     // sanity check
     len_p := len(pattern)
@@ -59,6 +63,7 @@ func computePrefix(pattern string) ([]int, os.Error) {
     return t, nil
 }
 
+// find the first occurence of kmp.pattern in argument 's'
 func (kmp *KMP) FindStringIndex(s string) int {
     // sanity check
     len_p := len(kmp.pattern)
@@ -89,9 +94,10 @@ func (kmp *KMP) ContainedIn(s string) bool {
     return kmp.FindStringIndex(s) >= 0
 }
 
-// as in strings
+// for effeciency, define default array-size
 const startSize = 10
 
+// find every occurence of the kmp.pattern in 's'
 func (kmp *KMP) FindAllStringIndex(s string) []int {
     len_s, len_p := len(s), len(kmp.pattern)
     if len_s < len_p { return nil }
