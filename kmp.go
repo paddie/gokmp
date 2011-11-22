@@ -4,15 +4,10 @@ import (
     "os"
 )
 
-type Error string
-
-func (e Error) String() string {
-    return string(e)
-}
-
 type KMP struct {
     pattern string
     prefix []int
+    size int
 }
 
 // For debugging
@@ -28,18 +23,19 @@ func NewKMP(pattern string) (*KMP, os.Error) {
     }
     return &KMP{
         pattern: pattern, 
-        prefix:prefix},
+        prefix:prefix,
+        size:len(pattern)},
         nil
 }
 
-// compute prefix-function
-// - returns in integer-array or an error if pattern is erroneously formatted
+// returns an array containing indexes of matches
+// - error if pattern argument is less than 1 char 
 func computePrefix(pattern string) ([]int, os.Error) {
     // sanity check
     len_p := len(pattern)
     if len_p < 2 {
         if len_p == 0 {
-            return nil, Error("'pattern' must contain at least one character")
+            return nil, os.NewError("'pattern' must contain at least one character")
         }
         return []int{-1}, nil
     }
@@ -63,11 +59,11 @@ func computePrefix(pattern string) ([]int, os.Error) {
     return t, nil
 }
 
-// find the first occurence of kmp.pattern in argument 's'
+// return index of first occurence of kmp.pattern in argument 's'
+// - if not found, returns -1
 func (kmp *KMP) FindStringIndex(s string) int {
     // sanity check
-    len_p := len(kmp.pattern)
-    if len(s) < len_p {
+    if len(s) < kmp.size {
         return -1
     }  
     m, i := 0,0 
@@ -81,7 +77,7 @@ func (kmp *KMP) FindStringIndex(s string) int {
                     i = 0
                 }
             case kmp.pattern[i] == s[m+i]:
-                if i == len_p-1 {
+                if i == kmp.size-1 {
                     return m
                 }
                 i++
@@ -90,8 +86,14 @@ func (kmp *KMP) FindStringIndex(s string) int {
     return -1
 }
 
+// returns true if pattern i matched at least once
 func (kmp *KMP) ContainedIn(s string) bool {
     return kmp.FindStringIndex(s) >= 0
+}
+
+// returns the number of occurences of pattern in argument
+func (kmp *KMP) Occurrences(s string) int {
+    return len( kmp.FindAllStringIndex(s) )
 }
 
 // for effeciency, define default array-size
@@ -99,14 +101,16 @@ const startSize = 10
 
 // find every occurence of the kmp.pattern in 's'
 func (kmp *KMP) FindAllStringIndex(s string) []int {
-    len_s, len_p := len(s), len(kmp.pattern)
-    if len_s < len_p { return nil }
+    // precompute
+    len_s := len(s)
+
+    if len_s < kmp.size { return []int{} }
     
     match := make([]int, 0, startSize)
     m, i := 0, 0
     for m + i < len_s {
         if kmp.pattern[i] == s[m+i] {
-            if i == len_p-1 {
+            if i == kmp.size-1 {
                 // the word was matched
                 match = append(match,m)
                 // simulate miss, and keep running

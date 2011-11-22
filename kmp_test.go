@@ -1,14 +1,16 @@
 package kmp
 
 import (
-	// "fmt"
     "testing"
     "strings"
 )
 
-const pattern = "aabb"
+// TESTS
+
+// pretty much the worst case string for strings.Index
+// wrt. string and pattern
 const str = "aabaabaaaabbaabaabaaabbaabaabb"
-const bad_str = "pepper"
+const pattern = "aabb"
 
 func TestFindAllStringIndex(t *testing.T) {
 	kmp, _ := NewKMP(pattern)
@@ -30,6 +32,35 @@ func TestFindStringIndex(t *testing.T) {
 		t.Errorf("FindStringIndex:\t%v != %v",ints, test)
 	}
 }
+
+func TestContainedIn(t * testing.T) {
+	kmp, _ := NewKMP(pattern)
+	if !kmp.ContainedIn(str) {
+		t.Errorf("ContainedIn:\tExpected: True !=  actual: False")
+	}	
+}
+
+func TestOccurrences(t *testing.T) {
+	kmp, _ := NewKMP(pattern)
+	// fmt.Println(kmp)
+	nr := kmp.Occurrences(str)
+	// test := []int{8,19,26}
+	if nr != 3 {
+		t.Errorf("Occurences:\texp: %v != act: %v)", 3, nr)
+	}
+}
+
+func TestOccurrencesFail(t *testing.T) {
+	kmp, _ := NewKMP(pattern)
+	// fmt.Println(kmp)
+	nr := kmp.Occurrences("pebble")
+	// test := []int{8,19,26}
+	if nr != 0 {
+		t.Errorf("Occurences:\texp: %v != act: %v)", 3, nr)
+	}
+}
+
+// BENCHMARKS
 
 func BenchmarkKMPIndexComparison(b *testing.B ) {
     kmp,_ := NewKMP(pattern)
