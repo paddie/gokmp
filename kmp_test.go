@@ -42,9 +42,7 @@ func TestContainedIn(t * testing.T) {
 
 func TestOccurrences(t *testing.T) {
 	kmp, _ := NewKMP(pattern)
-	// fmt.Println(kmp)
 	nr := kmp.Occurrences(str)
-	// test := []int{8,19,26}
 	if nr != 3 {
 		t.Errorf("Occurences:\texp: %v != act: %v)", 3, nr)
 	}
@@ -52,11 +50,9 @@ func TestOccurrences(t *testing.T) {
 
 func TestOccurrencesFail(t *testing.T) {
 	kmp, _ := NewKMP(pattern)
-	// fmt.Println(kmp)
 	nr := kmp.Occurrences("pebble")
-	// test := []int{8,19,26}
 	if nr != 0 {
-		t.Errorf("Occurences:\texp: %v != act: %v)", 3, nr)
+		t.Errorf("Occurences:\texp: %v != act: %v)", 0, nr)
 	}
 }
 
