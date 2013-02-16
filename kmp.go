@@ -45,16 +45,18 @@ func computePrefix(pattern string) ([]int, error) {
 
 	pos, count := 2, 0
 	for pos < len_p {
-		switch {
-		default:
-			t[pos] = 0
-			pos++
-		case pattern[pos-1] == pattern[count]:
+
+		if pattern[pos-1] == pattern[count] {
 			count++
 			t[pos] = count
 			pos++
-		case count > 0:
-			count = t[count]
+		} else {
+			if count > 0 {
+				count = t[count]
+			} else {
+				t[pos] = 0
+				pos++
+			}
 		}
 	}
 	return t, nil
@@ -69,19 +71,18 @@ func (kmp *KMP) FindStringIndex(s string) int {
 	}
 	m, i := 0, 0
 	for m+i < len(s) {
-		switch {
-		default:
+		if kmp.pattern[i] == s[m+i] {
+			if i == kmp.size-1 {
+				return m
+			}
+			i++
+		} else {
 			m = m + i - kmp.prefix[i]
 			if kmp.prefix[i] > -1 {
 				i = kmp.prefix[i]
 			} else {
 				i = 0
 			}
-		case kmp.pattern[i] == s[m+i]:
-			if i == kmp.size-1 {
-				return m
-			}
-			i++
 		}
 	}
 	return -1
