@@ -1,4 +1,4 @@
-package kmp
+package gokmp
 
 import (
 	"errors"
