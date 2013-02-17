@@ -14,6 +14,8 @@ import (
 )
 
 const str = "aabaabaaaabbaabaabaaabbaabaabb"
+//          "        _          _      _   "
+//                   8          19     26
 const pattern = "aabb"
 
 func main() {
@@ -22,4 +24,9 @@ func main() {
 
 	fmt.Println(ints)
 }
+```
+Output:
+=======
+```Go
+[8 19 26]
 ```
