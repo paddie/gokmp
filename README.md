@@ -3,6 +3,8 @@ gokmp
 
 String-matching in Golang using the Knuth–Morris–Pratt algorithm (KMP)
 
+See [Documentation](http://godoc.org/github.com/paddie/gokmp) on [http://godoc.org/](GoDoc).
+
 Example:
 ========
 ```Go
