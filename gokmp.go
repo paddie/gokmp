@@ -1,3 +1,4 @@
+// String-matching in Golang using the Knuth–Morris–Pratt algorithm (KMP)
 package gokmp
 
 import (
