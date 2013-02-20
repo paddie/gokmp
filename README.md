@@ -32,3 +32,34 @@ Output:
 ```Go
 [8 19 26]
 ```
+
+Tests and Benchmarks:
+=====================
+```
+go test -v -bench .
+```
+
+Output:
+=======
+```
+=== RUN TestFindAllStringIndex
+--- PASS: TestFindAllStringIndex (0.00 seconds)
+=== RUN TestFindStringIndex
+--- PASS: TestFindStringIndex (0.00 seconds)
+=== RUN TestContainedIn
+--- PASS: TestContainedIn (0.00 seconds)
+=== RUN TestOccurrences
+--- PASS: TestOccurrences (0.00 seconds)
+=== RUN TestOccurrencesFail
+--- PASS: TestOccurrencesFail (0.00 seconds)
+PASS
+BenchmarkKMPIndexComparison	10000000	       178 ns/op
+BenchmarkStringsIndexComparison	10000000	       359 ns/op
+ok  	github.com/paddie/gokmp	5.854s
+```
+Comparison:
+============
+```bash
+gokmp.FindStringIndex / strings.Index = 178/359 = 0.4958
+```
+Almost a 2x improvement over the naive built-in method.
