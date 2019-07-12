@@ -1,7 +1,13 @@
 gokmp
 =====
 
-String-matching in Golang using the Knuth–Morris–Pratt algorithm (KMP)
+String-matching in Golang using the Knuth–Morris–Pratt algorithm (KMP).
+
+## Disclaimer
+
+This library was written as part of my Master's Thesis and should be used as a helpful implementation reference for people interested in the Knuth-Morris-Pratt algorithm than as a performance string searching library.
+
+I believe the compiler has since caught up to most of the gains that this library bought me back in the day.
 
 See [Documentation](http://godoc.org/github.com/paddie/gokmp) on [GoDoc](http://godoc.org/).
 
